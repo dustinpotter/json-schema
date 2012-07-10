@@ -106,7 +106,6 @@ module JSON
               return
             end
           end
-        end
 
         # added dustinpotter
         when 'email'
@@ -121,7 +120,6 @@ module JSON
             validation_error(error_message, fragments, current_schema, self, options[:record_errors])
             return 
           end
-        end
 
         when 'phone'
           error_message = "The phone number '#{build_fragment(fragments)}' must include area code (like: 999-999-9999)"
@@ -135,7 +133,6 @@ module JSON
             validation_error(error_message, fragments, current_schema, self, options[:record_errors])
             return 
           end
-        end
 
         when 'zip'
           error_message = "The zip code '#{build_fragment(fragments)}' is not formatted correctly"
@@ -147,7 +144,6 @@ module JSON
             validation_error(error_message, fragments, current_schema, self, options[:record_errors])
             return
           end
-        end
 
         when 'postal'
           error_message = "The postal code '#{build_fragment(fragments)}' is not formatted correctly"
@@ -158,7 +154,9 @@ module JSON
           else
             validation_error(error_message, fragments, current_schema, self, options[:record_errors])
             return          
+          end
         end
+      end
     end
   end
 end
