@@ -148,7 +148,7 @@ module JSON
         when 'postal'
           error_message = "The postal code '#{build_fragment(fragments)}' is not formatted correctly"
           if data.is_a?(String)
-            r.Regexp.new('^\d{5}(-\d{4})?$)|(^[ABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Z]{1} *\d{1}[A-Z]{1}\d{1}$')
+            r = Regexp.new('^\d{5}(-\d{4})?$)|(^[ABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Z]{1} *\d{1}[A-Z]{1}\d{1}$')
             validation_error(error_message, fragments, current_schema, self, options[:record_errors]) and return unless (m = r.match((data)))
             # todo: check for specific phoney codes?
           else
@@ -156,6 +156,7 @@ module JSON
             return          
           end
         end
+
       end
     end
   end
