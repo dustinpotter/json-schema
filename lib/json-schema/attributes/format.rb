@@ -107,15 +107,32 @@ module JSON
             end
           end
 
-        # added dustinpotter
+        # added for cj
+        # Date in the format of MM.DD.YY[YY]
+        when 'us-date'
+          if data.is_a?(String)
+            error_message = "The property '#{build_fragment(fragments)}' must be a date in the format of DD/MM/YYYY"
+            validation_error(error_message, fragments, current_schema, self, options[:record_errors]) and return if !data.is_a?(String)
+            r = Regexp.new('^\d\d.\d\d.\d\d(\d\d)?$')
+            if (m = r.match(data))
+              begin
+                Date.parse(data)
+              rescue Exception
+                validation_error(error_message, fragments, current_schema, self, options[:record_errors])
+                return
+              end
+            else
+              validation_error(error_message, fragments, current_schema, self, options[:record_errors])
+              return
+            end
+          end
+
         when 'email'
           error_message = "The email address '#{build_fragment(fragments)}' must be formatted correctly and not blank"
           if data.is_a?(String)
-            if !data.is_a?(String)
             r = Regexp.new('^\w+([\w\-\.\+\'])*@([\w\-]+\.)*[\w\-]+$')
             validation_error(error_message, fragments, current_schema, self, options[:record_errors]) and return unless (m = r.match((data)))
-            # todo: check for specific phoney numbers?
-            end
+            # todo: check for specific phoney emails?
           else
             validation_error(error_message, fragments, current_schema, self, options[:record_errors])
             return 
@@ -124,11 +141,9 @@ module JSON
         when 'phone'
           error_message = "The phone number '#{build_fragment(fragments)}' must include area code (like: 999-999-9999)"
           if data.is_a?(String)
-            if !data.is_a?(String)
             r = Regexp.new('^[\(]?[0-9]{3}[\)]?[\s\-\.]?[0-9]{3}[\s\-\.]?[0-9]{4}([\s]*[x#\-][0-9]+)?$')
             validation_error(error_message, fragments, current_schema, self, options[:record_errors]) and return unless (m = r.match((data)))
             # todo: check for specific phoney numbers?
-            end
           else
             validation_error(error_message, fragments, current_schema, self, options[:record_errors])
             return 
