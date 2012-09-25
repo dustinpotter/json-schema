@@ -130,7 +130,7 @@ module JSON
           end
 
         when 'email'
-          error_message = "The email address '#{build_fragment(fragments)}' must be formatted correctly and not blank"
+          error_message = "The email address '#{build_fragment(fragments)}' is not formatted correctly"
           if data.is_a?(String)
             r = Regexp.new('^\w+([\w\-\.\+\'])*@([\w\-]+\.)*[\w\-]+$')
             validation_error(error_message, fragments, current_schema, self, options[:record_errors]) and return unless (m = r.match((data)))
@@ -141,7 +141,7 @@ module JSON
           end
 
         when 'phone'
-          error_message = "The phone number '#{build_fragment(fragments)}' must include area code (like: 999-999-9999)"
+          error_message = "The phone number '#{build_fragment(fragments)}' is not formatted correctly. It must include area code (like: 999-999-9999)"
           if data.is_a?(String)
             r = Regexp.new('^[\(]?[0-9]{3}[\)]?[\s\-\.]?[0-9]{3}[\s\-\.]?[0-9]{4}([\s]*[x#\-][0-9]+)?$')
             validation_error(error_message, fragments, current_schema, self, options[:record_errors]) and return unless (m = r.match((data)))
