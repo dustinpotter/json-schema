@@ -2,6 +2,8 @@ module JSON
   class Schema
     class FormatAttribute < Attribute
       def self.validate(current_schema, data, fragments, validator, options = {})
+        return if data.blank?
+
         case current_schema.schema['format']
 
         # Timestamp in restricted ISO-8601 YYYY-MM-DDThh:mm:ssZ with optional decimal fraction of the second
